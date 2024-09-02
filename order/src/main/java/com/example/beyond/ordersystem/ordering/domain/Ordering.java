@@ -1,6 +1,5 @@
 package com.example.beyond.ordersystem.ordering.domain;
 
-import com.example.beyond.ordersystem.member.domain.Member;
 import com.example.beyond.ordersystem.ordering.dto.OrderListResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,9 +26,7 @@ public class Ordering {
     @Builder.Default
     private OrderStatus orderStatus = OrderStatus.ORDERED;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    private String memberEmail;
 
     @OneToMany(mappedBy = "ordering", cascade = CascadeType.PERSIST, orphanRemoval = true)
     // 빌더패턴에서도 ArrayList로 초기화 되도록 하는 설정
@@ -47,7 +44,7 @@ public class Ordering {
         OrderListResDto orderListResDto = OrderListResDto.builder()
                 .id(this.id)
                 .orderStatus(this.orderStatus)
-                .memberEmail(this.member.getEmail())
+                .memberEmail(this.memberEmail)
                 .orderDetailDtos(orderDetailDtos)
                 .build();
         return orderListResDto;

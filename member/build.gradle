@@ -15,8 +15,17 @@ java {
 repositories {
     mavenCentral()
 }
+ext {
+    set('springCloudVersion', '2021.0.8')
+}
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
 dependencies {
+
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -42,8 +51,7 @@ dependencies {
     // 파일 처리를 위한 aws 의존성 추가
     implementation 'software.amazon.awssdk:s3:2.17.58'
 
-    // 동시성 제어를 위한 이벤트 기반 rabbitmq 의존성추가
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 }
 

@@ -6,7 +6,6 @@ import com.example.beyond.ordersystem.member.dto.MemberLoginDto;
 import com.example.beyond.ordersystem.member.dto.MemberSaveDto;
 import com.example.beyond.ordersystem.member.dto.ResetPasswordDto;
 import com.example.beyond.ordersystem.member.repository.MemberRepository;
-import com.example.beyond.ordersystem.ordering.domain.Ordering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

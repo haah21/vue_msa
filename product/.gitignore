@@ -7,7 +7,7 @@ build/
 src/main/resources/application.yml
 src/main/resources/application-local.yml
 src/main/resources/application-prod.yml
-
+application.yml_non_config_server
 ### STS ###
 .apt_generated
 .classpath

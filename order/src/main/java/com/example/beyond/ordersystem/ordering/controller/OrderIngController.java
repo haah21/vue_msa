@@ -6,6 +6,8 @@ import com.example.beyond.ordersystem.ordering.dto.OrderListResDto;
 import com.example.beyond.ordersystem.ordering.dto.OrderSaveReqDto;
 import com.example.beyond.ordersystem.ordering.repository.OrderingRepository;
 import com.example.beyond.ordersystem.ordering.service.OrderingService;
+import org.aspectj.weaver.ast.Or;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,8 @@ public class OrderIngController {
 
     @PostMapping("create")
     public ResponseEntity<?> orderCreate(@RequestBody List<OrderSaveReqDto> dto) {
-        Ordering ordering = orderingService.orderCreate(dto);
+//        Ordering ordering = orderingService.orderFeignKafkaCreate(dto);
+        Ordering ordering = orderingService.orderFeignClientCreate(dto);
         CommonResDto commonResDto = new CommonResDto(HttpStatus.CREATED, "주문완료", ordering.getId());
         return new ResponseEntity<>(commonResDto, HttpStatus.OK);
     }

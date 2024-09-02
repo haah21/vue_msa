@@ -1,6 +1,5 @@
 package com.example.beyond.ordersystem.ordering.dto;
 
-import com.example.beyond.ordersystem.member.domain.Member;
 import com.example.beyond.ordersystem.ordering.domain.OrderStatus;
 import com.example.beyond.ordersystem.ordering.domain.Ordering;
 import lombok.AllArgsConstructor;

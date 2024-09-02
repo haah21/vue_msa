@@ -4,11 +4,7 @@ import com.example.beyond.ordersystem.common.domain.Address;
 import com.example.beyond.ordersystem.common.domain.BaseTimeEntity;
 import com.example.beyond.ordersystem.member.dto.MemberDetailDto;
 import com.example.beyond.ordersystem.member.dto.MemberListDto;
-import com.example.beyond.ordersystem.ordering.domain.Ordering;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -41,16 +37,12 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private Role role = Role.USER;
 
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
-    private List<Ordering> orderingList;
-
     public MemberListDto listFromEntity() {
         return MemberListDto.builder()
                 .id(this.id)
                 .name(this.name)
                 .email(this.email)
                 .address(this.address)
-                .orderCount(this.orderingList.size())
                 .build();
     }
     public MemberDetailDto detailFromEntity() {

@@ -49,7 +49,7 @@ public class JwtAuthFilter extends GenericFilter {
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + claims.get("role")));
                 UserDetails userDetails = new User(claims.getSubject(), "", authorities); // getSubject() : 사용자 이메일
-                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities()); // 전역적으로 사용하기 위해 authentication 객체 생성
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,bearerIoken,userDetails.getAuthorities()); // 전역적으로 사용하기 위해 authentication 객체 생성
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             }

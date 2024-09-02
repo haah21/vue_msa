@@ -2,7 +2,6 @@ package com.example.beyond.ordersystem.ordering.domain;
 
 
 import com.example.beyond.ordersystem.ordering.dto.OrderListResDto;
-import com.example.beyond.ordersystem.product.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,14 +24,12 @@ public class OrderDetail {
     @JoinColumn(name = "ordering_id")
     private Ordering ordering;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+
+    private Long productId;
 
     public OrderListResDto.OrderDetailDto fromEntity() {
         OrderListResDto.OrderDetailDto orderDetailDto = OrderListResDto.OrderDetailDto.builder()
                 .id(this.id)
-                .productName(this.product.getName())
                 .count(this.quantity)
                 .build();
         return orderDetailDto;

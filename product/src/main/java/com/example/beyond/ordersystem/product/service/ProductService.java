@@ -1,16 +1,21 @@
 package com.example.beyond.ordersystem.product.service;
 
+import com.example.beyond.ordersystem.common.dto.ProductUpdateStockDto;
 import com.example.beyond.ordersystem.common.service.StockInventoryService;
 import com.example.beyond.ordersystem.product.domain.Product;
+import com.example.beyond.ordersystem.product.dto.ProductDetailDto;
 import com.example.beyond.ordersystem.product.dto.ProductResDto;
 import com.example.beyond.ordersystem.product.dto.ProductSaveDto;
 import com.example.beyond.ordersystem.product.dto.ProductSearchDto;
 import com.example.beyond.ordersystem.product.repository.ProductRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+//import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +24,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -132,4 +138,29 @@ public class ProductService {
         Page<Product> products = productRepository.findAll(specification,pageable);
         return products.map(a -> a.fromEntity());
     }
+
+    @Transactional
+    public ProductResDto productDetail(Long id) {
+        return productRepository.findById(id).orElseThrow(()->new EntityNotFoundException("존재하지 않는 product")).fromEntity();
+    }
+
+    @Transactional
+    public Product productUpdateStock(ProductUpdateStockDto dto){
+        Product product = productRepository.findById(dto.getProductId()).orElseThrow(()->new EntityNotFoundException("there is no product"));
+        product.updateStockQuantity(dto.getProductQuantity());
+        return product;
+    }
+
+
+//    @KafkaListener(topics = "product-update-topic", groupId = "order-group", containerFactory = "kafkaListenerContainerFactory")
+//    public void consumerProductQuantity(String message){
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        try {
+//            ProductUpdateStockDto productUpdateStockDto = objectMapper.readValue(message, ProductUpdateStockDto.class);
+//            System.out.println(productUpdateStockDto);
+//            this.productUpdateStock(productUpdateStockDto);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
